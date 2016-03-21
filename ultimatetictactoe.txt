@@ -1,0 +1,91 @@
+GameState
+	Field field
+	MacroBoard macroBoard
+	int round
+	int move
+	Player activePlayer
+	boolean gameOver
+	Player winner
+	==
+	Set<Move> getValidMoves()
+	GameState makeMove(Move)
+Move
+	int x
+	int y
+GameStateTree
+	GSTNode start
+	===
+	void populate()
+GSTNode
+	GameState state
+	Set<GSTNode> prev
+	Set<GSTNode> next
+	Set<GSTNode> guaranteed
+	Set<Player> losable 
+	==
+	boolean canPlayerLose(Player)
+enum Player
+	ONE, TWO
+
+GameStateTree.populate pseudoJava
+	Set<GSTNode> allNodes = new Set<>();
+	Set<GSTNode> leaves = new Set<>();
+	Queue<GSTNode> todo = new Queue<>();
+	allNodes.add(start);
+	todo.enqueue(start);
+	while(todo.isEmpty() == false){
+		GSTNode cur = todo.dequeue();
+		GameState state = cur.state;
+		if (state.isGameOver()){
+			leaves.add(cur);
+		} else {
+			Set<Move> moves = state.getValidMoves();
+			for(Move m : moves){
+				GameState nextState = state.makeMove(m);
+				GSTNode nextNode = new GSTNode(nextState);
+				if (allNodes.contains(nextNode)){
+					nextNode = allNodes.remove(nextNode);
+				}
+				nextNode.prev.add(cur);
+				cur.next.add(nextNode);
+				allNodes.add(nextNode);
+				todo.enqueue(nextNode);
+			}
+		}
+	}
+	for(GSTNode leaf : leaves){
+		GameState state = leaf.state;
+		assert(state.isGameOver());
+		if (state.winner == ONE){
+			leaf.losable.remove(ONE);
+		} else if (state.winner == TWO){
+			leaf.losable.rempve(TWO);
+		} else if (state.winner == null){
+			leaf.losable.empty();
+		} else {
+			// ERROR
+		}
+		todo.enqueue(leaf);
+	}
+	while(todo.isEmpty() == false){
+		GSTNode cur = todo.dequeue;
+		Set<GSTNode> prev = cur.prev;
+		for(GSTNode p : prev){
+			Player player = p.state.activePlayer;
+			Player opponent = player == ONE ? TWO : ONE;
+			if (cur.canPlayerLose(player) == false
+				&& cur.canPlayerLose(opponent)){
+				if (p.canPlayerLose(player)){
+					p.losable.remove(player);
+				}
+				p.guaranteed.add(cur);
+			} else if (losable.contains(player) == false){
+				if(p.losable.contains(player)){
+					p.losable.remove(player);
+				} 
+				if (p.guaranteed.isEmpty()){
+					p.guaranteed.add(cur);
+				} else if (p.get(0).losable.contains)
+			}
+		}
+	}

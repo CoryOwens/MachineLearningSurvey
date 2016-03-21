@@ -1,0 +1,175 @@
+Machine Learning Notes 
+
+Week 1
+PreReqs
+	linear algebra
+Topics
+	linear regression with one variable
+	cost function
+	gradient descent method
+	supervised learning
+	unsupervised learning
+Supervised Learning
+	Give algorithm "right answers" as examples
+	Regression
+		Predict continuous valued output
+	Classification
+		Predict discrete valued output
+	Support Vector Machine
+		Algorithm capable of considering infinite number of features/attributes
+Unsupervised Learning
+	Given data set without context
+	Algorithm attempts to find structure
+	Clustering algorithm
+	Used for organization
+	Ex: Cocktail Party Problem
+Linear Regression
+	Predicts real-valued output based on input value
+	Supervised Learning
+	Model Representation
+		Notation
+			m - numner of training examples
+			x's - inpout variable/feature
+			y's - output variable/target variable
+			(x,y) - one training example
+			(x^(i),y^(i)) - ith training example
+		Training Set
+			Fed to Learning Algorithm
+			LA produces hypothesis function (h)
+			h maps from x's to y's
+				h_θ(x) = θ_0 + θ_1(x)
+					y is a linear function of x
+				Univariate linear regression
+	Cost Function
+		θ_i's - Parameter values
+		Idea: Choose θ_0, θ_1 so that h_θ(x) is close to y for training examples (x,y). 
+		Cost Function or Squared Error function
+			J(θ_0,θ_1) = (1/2m)Σ(i=1 to m)[(h_θ(x^(i)) - y^(i))^2]
+		Minimize over θ_0 θ_1 J(θ_0,θ_1)
+			Find values of parameters to minimize average difference between predicted value and actual value over training set
+	Gradient Descent
+		Used to minimize cost function (and other functions)
+		Outline
+			Start with some parameters
+			Keep changing parameters to reduce function value until hopefully we end at a minimum
+		Definition
+			repeat until convergence {
+				θ_j := θ_j - α[∂/(∂θ_j)]J(θ_0,θ_1) (for j = 0 and j = 1)
+			}
+			α - learning rate
+				Fixed value - steps get smaller as derivative (slope) gets smaller
+				Too small - Gradient Descent takes a long time
+				Too large - May overshoot minimum, fail to converge, possibly even diverge
+			Simultaneously update θ_0 and θ_1
+				Calculate new values for both before assigning either.
+	Gradient Descent for Linear Regression
+		Apply gradient descent to squared error cost function
+			∂/(∂θ_j)J(θ_0,θ_1) = ∂/(∂θ_j)(1/2m)Σ(i=1 to m)[(h_θ(x^(i)) - y^(i))^2]
+			So
+				∂/(∂θ_0)J(θ_0,θ_1) = (1/m)Σ(i=1 to m)[h_θ(x^(i)) - y^(i)]
+				∂/(∂θ_1)J(θ_0,θ_1) = (1/m)Σ(i=1 to m)[(h_θ(x^(i)) - y^(i)) * x^(i)]
+		Definition
+			repeat until convergence {
+				θ_0 := θ_0 - α * (1/m)Σ(i=1 to m)[h_θ(x^(i)) - y^(i)]
+				θ_1 := θ_1 - α * (1/m)Σ(i=1 to m)[(h_θ(x^(i)) - y^(i)) * x^(i)]
+			}
+			More specifically
+			repeat until convergence {
+				temp0 := θ_0 - α * (1/m)Σ(i=1 to m)[h_θ(x^(i)) - y^(i)]
+				temp1 := θ_1 - α * (1/m)Σ(i=1 to m)[(h_θ(x^(i)) - y^(i)) * x^(i)]
+				θ_0 := temp0
+				θ_1 := temp1
+			}
+		Somtimes called Batch gradient descent
+			Each step uses all of the training examples
+
+Week 2
+Multivariate Linear Regression
+	n - number of features
+	x^i - input features of ith training example
+	x_j^i - value of feature j in ith training example.
+	Hypothesis
+		h_θ(x)=θ_0+θ_1x_1+θ_2x_2+...+θ_nx_n
+	Gradient Descent
+		Cost Function
+			J(θ_0,θ_1,...,θ_n)=1/(2m)sum_i=1..m(h_θ(x^i)-y^i)^2
+		Pseudocode
+			repeat{
+				θ_j := θ_j - α(∂/(∂θ_j))J(θ_0,...,θ_n)
+			} // Remember: simultaneously update for j 0..n
+		Feature Scaling
+			Make sure features are on a similar scale
+			Ensures that gradient descent converges more quickly
+			Rule of thumb: divide numbers by the maximum of that feature
+				Causes all values to be between 0 and 1
+			Ideally get all numbers from -1 to +1 scale
+			Mean Normalization
+				(x_i-μ_i)/S_i 
+				S_i - range of feature i (max_i - min_i)
+					Or standard deviation of feature i
+				Do not apply to x_0=1
+		"Debugging" gradient descent
+			Plot cost function as gradient descent runs
+				Should show decreasing cost as number of iterations increases
+					Cost should decrease after every iteration
+				If cost function increases at any point, use smaller learning rate α
+			Automatic Convergence Test
+				Declare convergence if cost function decreases less than some threshhold in one iteration.
+	Choosing Features
+		May make composite features (ex, area instead of width and depth)
+		Polynomial Regression
+			Ex: Set features as feature1, feature1^2, feature1^3
+Normal Equation
+	Computing Parameters Analytically
+	Calculus
+		Take derivative of cost function, set to 0, solve for θ
+		For cost functions with multiple parameters (θ_0,...,θ_n), take partial derivative for each parameter, solve for each.
+	Practical
+		Form design matrix X formed by all training examples, first column being x_0 = 1
+			m x (n+1) matrix
+		Form vector y formed by all training example results
+			m-dimensional vector
+		θ = (X^T X)^-1 X^T y
+			Octave: pinv(X'*X)*X'*y
+		No need for feature scaling
+Gradient Descent vs Normal Equation
+	Gradient Descent
+		Pro: 
+			Works even when n is large
+		Con: 
+			Need learning rate
+			Need iterations
+	Normal Equation
+		Pro: 
+			No need for learning rate
+			No need for iterations
+		Con: 
+			Need to compute n x n matrix
+				Slow if n is very large
+				O(n^3)
+Octave
+	Operands: +, -, *, /, ^
+	Comparison: ==, ~=
+	Logic: &&, ||, xor()
+	Change prompt: PS1('>> '');
+	Assignment: = 
+	Output: a = pi
+		a
+		Formatting
+			format short
+			format long
+		display(a);
+		disp(sprintf('%0.2f', a))
+	Arrays
+		V = [1 2 3];
+		A = [a1 a2; b1 b2; c1 c2]; 
+		V = 1:0.1:2 % range
+		C = ones(2,3)
+		R = rand(2,3)
+		N = randn(2,3) % gaussian distribution
+			hist(N)
+			hist(N, 50);
+		I = eye(6) % identity matrix
+	Help
+		help eye
+	
