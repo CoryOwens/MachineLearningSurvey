@@ -1,0 +1,18 @@
+Machine Learning Topics
+	Supervised Learning
+	Unsupervised Learning
+	Regression
+		Univariate
+		Multivariate
+		Cost Function
+		Gradient Descent
+		Linear
+			Linear Hypothesis
+			Normal Equation
+		Logistic
+			Classification
+				Binary
+				Multi-Class
+					One-vs-All
+			Sigmoid Function Hypothesis
+			

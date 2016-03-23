@@ -172,4 +172,43 @@ Octave
 		I = eye(6) % identity matrix
 	Help
 		help eye
-	
+Logistic Regression
+	Classification
+		Discrete y in {0,1} negative class vs positive class
+		0 <= h_θ(x) <= 1
+			h_θ(x) = g(θ^T x)
+			Sigmoid Function/Logistic Function g(z)=1/(1+e^-z)
+			h_θ(x) = 1/(1+e^-(θ^T x))
+		Estimated probability that y=1 on input x
+		Decision Boundary
+		Cost Function
+			cost(h_θ(x), y) = 
+				-log(h_θ(x)) 	if y=1
+				-log(1-h_θ(x)) 	if y=0
+			J(θ)=(1/m)sum[i=1..m](cost(h_θ(x^i), y^i))
+		Simplified Cost Function
+			cost(h_θ(x), y) = -y*log(h_θ(x)) - (1-y)*log(1-h_θ(x));
+			Principle of Maximum Likelihood Estimation
+		Gradient Descent
+			repeat
+				θ := θ - α*sum[i=1..m]((h_θ(x^i)-y^i)*x_j^i);
+			Same as linear regression. Only Hypothesis has changed
+		Optimization
+			Require J(θ) and ∂/(∂θ_j)
+			Algorithms
+				Conjugate Gradient
+				BFGS
+				L-BFGS
+			Advantage:
+				α does not need to be picked manually.
+				Often faster than gradient descent
+			Disadvantages
+				More complex
+	Multi-Class Classification 
+		Classes y = 1, 2, 3, 4, ...
+		One-vs-All
+			Convert to multiple binary classification problems.
+				Class 1 vs rest
+				Class 2 vs rest
+				...
+			
