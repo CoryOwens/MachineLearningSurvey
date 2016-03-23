@@ -1,7 +1,6 @@
 Machine Learning Topics
 	Supervised Learning
-	Unsupervised Learning
-	Regression
+		Regression
 		Univariate
 		Multivariate
 		Cost Function
@@ -15,4 +14,4 @@ Machine Learning Topics
 				Multi-Class
 					One-vs-All
 			Sigmoid Function Hypothesis
-			
+	Unsupervised Learning
