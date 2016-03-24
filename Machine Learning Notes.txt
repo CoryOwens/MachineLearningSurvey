@@ -211,4 +211,3 @@ Logistic Regression
 				Class 1 vs rest
 				Class 2 vs rest
 				...
-			
