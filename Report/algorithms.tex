@@ -1,0 +1,118 @@
+%----------------------------------------------------------------------------------------
+%	COMMONLY USED METHODS
+%----------------------------------------------------------------------------------------
+\section{Commonly Used Algorithms} % Sub-sub-section
+
+The study of machine learning has produced a large number of useful algorithms. This section will discuss some of the most popular algorithms within machine learning. 
+
+%------------------------------------------------
+
+\subsection{Linear and Polynomial Regression}
+
+Linear and polynomial regression are classes of supervised machine learning algorithms which form a best fit function to their training data. This hypothesis is optimized to minimize a cost function. The optimization may be performed with a process known as ``gradient descent'', or by using calculus. \cite{website:ng} For a succinct example, let's describe univariate linear regression (linear regression with one variable). 
+
+Let \(m\) be the number of training examples for the machine. Let \(x\) be an input variable or feature. Let \(y\) be the output variable or target variable. Then, \((x, y)\) would be one training example, with \((x^i, y^i)\) being the \(i^{th}\) training example. The hypothesis function maps input \((x)\) to output \((y)\): 
+
+\[h_\theta(x) = \theta_0 + \theta_1(x)\]
+
+where \(\theta_i\) is the \(i^{th}\) hypothesis parameter value. Linear regression aims to choose hypothesis parameters such that \(h_\theta(x)\) is close to \(y\) for the training example \((x, y)\). This is done by minimizing the cost function (also known as the square error function):
+
+\[J(\theta_0,\theta_1) = (\frac{1}{2m})\sum_{i=1}^m[(h_\theta(x^i) - y^i)^2]\]
+
+Gradient descent is an iterative process which attempts to minimize the cost function my making incremental changes to the hypothesis parameters in the direction of the mathematical gradient. This gradient describes the ``downhill'' direction for the cost function. This process is described as:
+
+\begin{align*} 
+\text{repeat until convergence:} & \\
+\theta_j := & \theta_j - \alpha[\frac{\partial}{\partial\theta_j}]J(\theta_0, \theta_1) \text{ for } j = 0 \text{ and } j = 1
+\end{align*} 
+
+
+where \(\alpha\) is known as the ``learning rate''. The learning rate is a constant which dictates how large each incremental step is. With too low a learning rate, gradient descent may take a very long time. With too large a learning rate, gradient descent may not converge at all, as it overshoots the global minimum and actually begins to diverge. It is worth noting that both \(\theta_0\) and \(\theta_1\) must be updated simultaneously, so in implementation code a pair of intermediate variables would be needed.
+
+As an alternative to gradient descent, calculus can be used through a method called the ``normal equation.'' For brevity, the algorithm will not be described fully here. The advantage of the normal equation is that it is not an iterative approach, and thus there is no need to select a learning rate. Its disadvantage is that, because it has to compute an \(n \times n\) matrix, it can be very slow if the training set is very large \((O(n^3))\).
+
+This example describes univariate linear regression. Other variations exist for multivariate regression and polynomial regression, but for brevity they will not be described here. 
+
+%------------------------------------------------
+
+\subsection{Logistic Regression}
+
+Logistic regression is a supervised classification machine learning algorithm. It is similar in many ways to the regression algorithms above, save for the fact that the hypothesis maps input to a discrete class of outputs. This section will describe a binary classifier (a decider), which maps input to a negative class or a positive class. That is to say that \(x\) is mapped to a \(y\) in \({0, 1}\). The hypothesis produced by logistic regression utilizes a sigmoid function \(g(z)\) (also known as a logistic function):
+
+\[g(z)=\frac{1}{1+e^{-z}}\]
+
+This returns a probability that \(y = 1\) on input \(x\). The cost function is then described as:
+
+\begin{align*} 
+cost(h_\theta(x), y) &= \\
+	& -log(h_\theta(x)) 	&\text{ if } y = 1\\
+	& -log(1 - h_\theta(x))	&\text{ if } y = 0
+\end{align*} 
+
+Again, this cost function is minimized using gradient descent or a calculus-based solution. One one of implementing a multi-class classifier with logistic regression is through one-vs-all classification. In one-vs-all classification, a multi-class problem is converted into multiple binary-class problems. For instance, a machine to classify animals may be made with logistic regression by first identifying the likelihood that the input is a dog vs all other types of animals. Then, it would identify the likelihood that the input is a cat vs all other types of animals. It would repeat this process for all classes upon which it has been trained and return the class with the highest likelihood. 
+
+%------------------------------------------------
+
+\subsection{Decision Trees}
+
+Decision trees are technically a data structure used by certain machine learning algorithms, but in practice the algorithm which builds up the decision tree simply takes on the name of its backing structure. For the rest of this section, the term decision tree will be used interchangeably to refer to either the backing data structure or the machine learning algorithm which uses that data structure, as determined by context. Decision trees are a supervised learning classifier. The decision tree is built of two types of nodes: internal nodes (which test the value of a particular feature, branching according to the results), and leaf nodes (which predict a particular class). The basic algorithm to build up a decision tree is quite simple. Given a training set of data, if all examples are of a given set, return a leaf node predicting that class. Else, split the data by the best dividing attribute, and return a new internal node which splits on that attribute. The branches of this internal node are directed to new nodes formed by a recursive call of this function on the split portion of the data. \cite{website:domingos} The psuedocode for a binary decision tree (a decision tree with two classes, 0 and 1):
+
+\begin{verbatim}
+GrowTree(S)
+    if (y = 0 for all <x,y> in S) return new Leaf(0)
+    else if (y = 1 for all <x,y> in S) return new Leaf(1)
+    else 
+        xj = ChooseBestAttribute(S)
+        S0 = all <x,y> in S with xj = 0
+        S1 = all <x,y> in S with xj = 1
+        return new Node(xj, GrowTree(S0), GrowTree(S1))
+\end{verbatim}
+
+The definition of the ChooseBestAttribute method is somewhat more complex, requiring some information theory, essentially attempting to minimize entropy in each portion of the split. In pseudocode:
+
+\begin{verbatim}
+ChooseBestAttribute(S)
+    bestJ = 0
+    jEntropy = MAX_DOUBLE
+    for i = 1 .. NUM_OF_ATTRIBUTES
+        ent = Entropy(i, S)
+        if (ent < jEntropy)
+            bestJ = i
+            jEntropy = ent
+    return bestJ
+\end{verbatim}
+
+Where Entropy(i, S) is an implementation of the mathematical function: 
+
+\[H(V)=\sum_{v=0}^1-P(H=v)lgP(H=v)\] 
+
+Decision trees become considerably more complex when considering non-boolean features. For discrete features, a decision may have mutli-way splits, or test for one value versus all others, or group values into disjoint subsets. For continuous features, a decision tree may have to consider a threshold split. Decision trees have some difficulties with noise in the data (attributes which really have no bearing on classification), attributes with many values (relative to the size of the dataset), and unknown attribute values. Decision trees also have some difficulty with data whose decision boundary is at some slope or curve, as the comparison splits on attributes are always parallel to data axes (``vertical'' or ``horizontal'' in the two-dimensional sense. Still, decision trees remain one of the most popular machine learning algorithm for the ease with which they can be understood and implemented.
+
+%------------------------------------------------
+
+\subsection{Naive Bayes}
+
+Bayesian methods use statistical inference to update the probability of a hypothesis based on additional data. The naive Bayes classifier, which utilizes these methods, is a supervised learning classifier. The naive Bayes classifier attempts to produce the most probable hypothesis function using the naive Bayes assumption applied to Bayesian methods:
+
+\[v_{NB}=\underset{v_j \in V}{argmax}P(v_j)\prod_{i}P(a_i|v_j)\]
+
+The algorithm is considered ``naive'' because it makes an assumption (that the probability of the attributes given the class are independent) which is patently false in many domains. Yet in spite of this, naive Bayes classifiers remain popular because they perform as well as other classifiers. One drawback of naive Bayes classifiers is that they often produce inaccurate probability estimates, even though they are effective at making correct classifications. Another problem for naive Bayes classifiers is that, for your training set, if no example of target class \(v_j\) has attribute \(a_i\), then for an input of \(a_i\), the classifier will never predict \(v_j\). This is easily corrected by assuming each target class has some prior example of an attribute \(a_i\). This is accomplished using an \(m\)-estimate of \(P(a_i|v_j)\):
+
+\[P(a_i|v_j) = \frac{n_c+mp}{n+m}\]
+
+Where \(n\) is the number of training examples for which \(v=v_j\), \(n_c\) is the number of examples for which \(v=v_j\) and \(a=a_i\), \(p\) is the prior estimate for \(P(a_i|v_j)\), and \(m\) is the weight given to prior. \cite{website:domingos} 
+
+%------------------------------------------------
+
+\subsection{Neural Networks}
+
+Neural networks are supervised learning classifiers. Neural networks came about in an attempt to model a machine learning algorithm after the human brain. Neural networks have many neuron-like threshold switching units and many weighted interconnections between units. They rely on a highly parallel, distributed process. \cite{website:domingos} A simple ``neuron'' representation is the ``perceptron,'' which has a set of inputs, or ``dendrites,'' \(\vec{x}=\{x_0, x_1, ... x_n\}\) with associated weights \(\vec{w}=\{w_0, w_1, ... w_n\}\). It has a sum function, or ``soma,'' \(\sum_{i=0}^{n}(w_ix_i)=\vec{x}\dot\cdot\vec{w}\). Finally, it has an output, or ``axon,'' which is equal to \(1\) if the soma result is greater than \(0\), and \(-1\) otherwise. The algorithm learns by adjusting the weights of its inputs. One simple method for this follows:
+
+\[w_i \leftarrow w_i + \delta w_i\]
+\[\delta w_i = \eta (t - o) x_i\]
+
+Where \(t = c(x)\) is the target value, \(o\) is the output, and \(\eta\) is a small constant (around \(0.1\)) known as the ``learning rate.'' This learning rate serves the same purpose as the learning rate above in linear and polynomial regression. In fact, neural networks often implement gradient descent to optimize at this stage by minimizing the square error, as the above equation has one serious drawback. In a similar way to how decision trees form a linear decision boundary, perceptrons form a linear or planar decision boundary. If such a boundary can not be made, the optimization will never converge, as small adjustments are made to the weights each time the output is incorrect. Utilizing gradient descent, the process will eventually converge, minimizing the error over the training set. 
+%------------------------------------------------
+
+
+

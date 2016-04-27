@@ -1,0 +1,33 @@
+%----------------------------------------------------------------------------------------
+%	CATEGORIZATION BY DATA
+%----------------------------------------------------------------------------------------
+
+\section{Categorization by Data} % Major section
+
+One important way of categorizing machine learning algorithms is by the type of data they are given. This data can be prelabeled example data, often referred to as the ``training set.'' In the case where a machine learning algorithm is given a labeled training set, the algorithm is classified as ``supervised learning.'' The data can also be unlabeled, and the algorithm must then find hidden structure within the data for it to be useful. In the case where a machine learning algorithm is given unlabeled data, the algorithm is classified as ``unsupervised learning.'' Finally, the data may be some mix of prelabeled and unlabeled data. In the case where a machine learning algorithm is given such a mixture of labeled and unlabeled data, the algorithm is classified as ``semisupervised learning.'' Finally, in the case where the machine produces output, and that output is then rated before being reincorporated into the algorithm's data set, the algorithm is classified as ``reinforcement learning''. Each of these methods has its own strengths and weaknesses.
+
+%------------------------------------------------
+
+\subsection{Supervised Learning} % Sub-section
+
+In supervised learning, where the machine learning algorithm is provided a labeled training set of data, the algorithm has the advantage of being able to build a starting knowledge base from existing data with the confidence that this data is accurate. This, of course, alludes to one challenge in using supervised learning: the selection of a training set. Not only must the data be accurate, but it is important to minimize variance and outliers to ensure the algorithm does not form a false hypothesis from the data. In some applications, even having a large enough set of appropriate training data may be difficult in itself. Supervised learning is commonly used in classification and regression, which will be discussed in the next section. An example of supervised learning would be to supply the machine learning algorithm with a set of housing data, including size, age, location, and price. The algorithm could then be given input of size, age, and location which could then be mapped to a predictive price. \cite{website:ng}
+
+%------------------------------------------------
+
+\subsection{Unsupervised Learning} % Sub-sub-section
+
+In unsupervised learning, where the machine learning algorithm is provided unlabeled data, the algorithm has to discover some underlying structure within the data. Unsupervised learning has the benefit that the user doesn't have to provide a curated training set. This is particularly useful for datasets too large for a human to realistically analyze, allowing unsupervised learning to discover patterns of which the user was entirely unaware. One drawback is that the user loses the ability to direct the learning process, and that no meaningful structure may even be discovered. Unsupervised learning is commonly used in clustering, which will be discussed in the next section. An example of unsupervised learning would be to supply the machine learning algorithm with an unlabeled set of botany data for flowers, including stem length, petal shape, and petal count. The machine could then find order within this data, identifying some distinct classes, even if the machine does not produce labels for these classes (it wouldn't know that it had just identified a family of orchids, just that these types of flowers are somehow related, based on the dataset).
+
+%------------------------------------------------
+
+\subsection{Semisupervised Learning} % Sub-sub-section
+
+In semisupervised learning, where the machine learning algorithm is provided a mix of labeled and unlabled data, the algorithm attempts to find underlying structure within unlabeled data, but with the guidance of a labeled training set. Of course, this implies the main advantage of semisupervised learning is in that it allows the user to guide the algorithm's exploration. 
+
+%------------------------------------------------
+
+\subsection{Reinforcement Learning} % Sub-sub-section
+
+Reinforcement learning can be seen as either supervised learning (where the output rating and its reincorporation controlled by a human being) or unsupervised (where the machine explores and reincorporates results itself), but it is important to identify its differences from the more traditional supervised and unsupervised learning above. In reinforcement learning, the algorithm, typically, is not given a large set of data to work with. The machine is called upon to produce output. That output is rated, and then fed back to the machine. This mapping of an output to a rating is added to a running dataset for the machine. Reinforcement learning is a balance between exploration of new output spaces and exploitation of previously successful outputs. An example of reinforcement learning would be a machine learning to play chess. Each game, the machine may build a strategy. That strategy is then played out against an opponent. If the opponent is a human, this could be seen as supervised learning. If the opponent is another machine, or even another instance of the same machine, this could be seen as unsupervised learning. Each move may be rated, or perhaps only the outcome of the game. This strategy and the resultant rating is then incorporated back into the machine before it starts its next game. 
+
+%------------------------------------------------
