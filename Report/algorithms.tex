@@ -37,7 +37,7 @@ This example describes univariate linear regression. Other variations exist for 
 
 \subsection{Logistic Regression}
 
-Logistic regression is a supervised classification machine learning algorithm. It is similar in many ways to the regression algorithms above, save for the fact that the hypothesis maps input to a discrete class of outputs. This section will describe a binary classifier (a decider), which maps input to a negative class or a positive class. That is to say that \(x\) is mapped to a \(y\) in \({0, 1}\). The hypothesis produced by logistic regression utilizes a sigmoid function \(g(z)\) (also known as a logistic function):
+Logistic regression is a supervised classification machine learning algorithm. It is similar in many ways to the regression algorithms above, save for the fact that the hypothesis maps input to a discrete class of outputs. This section will describe a binary classifier (a decider), which maps input to a negative class or a positive class. That is to say that \(x\) is mapped to a \(y\) in \(\{0, 1\}\). The hypothesis produced by logistic regression utilizes a sigmoid function \(g(z)\) (also known as a logistic function):
 
 \[g(z)=\frac{1}{1+e^{-z}}\]
 
@@ -49,7 +49,7 @@ cost(h_\theta(x), y) &= \\
 	& -log(1 - h_\theta(x))	&\text{ if } y = 0
 \end{align*} 
 
-Again, this cost function is minimized using gradient descent or a calculus-based solution. One one of implementing a multi-class classifier with logistic regression is through one-vs-all classification. In one-vs-all classification, a multi-class problem is converted into multiple binary-class problems. For instance, a machine to classify animals may be made with logistic regression by first identifying the likelihood that the input is a dog vs all other types of animals. Then, it would identify the likelihood that the input is a cat vs all other types of animals. It would repeat this process for all classes upon which it has been trained and return the class with the highest likelihood. 
+Again, this cost function is minimized using gradient descent or a calculus-based solution. One way of implementing a multi-class classifier with logistic regression is through one-vs-all classification. In one-vs-all classification, a multi-class problem is converted into multiple binary-class problems. For instance, a machine to classify animals may be made with logistic regression by first identifying the likelihood that the input is a dog vs all other types of animals. Then, it would identify the likelihood that the input is a cat vs all other types of animals. It would repeat this process for all classes upon which it has been trained and return the class with the highest likelihood. 
 
 %------------------------------------------------
 
@@ -108,10 +108,10 @@ Where \(n\) is the number of training examples for which \(v=v_j\), \(n_c\) is t
 
 Neural networks are supervised learning classifiers. Neural networks came about in an attempt to model a machine learning algorithm after the human brain. Neural networks have many neuron-like threshold switching units and many weighted interconnections between units. They rely on a highly parallel, distributed process. \cite{website:domingos} A simple ``neuron'' representation is the ``perceptron,'' which has a set of inputs, or ``dendrites,'' \(\vec{x}=\{x_0, x_1, ... x_n\}\) with associated weights \(\vec{w}=\{w_0, w_1, ... w_n\}\). It has a sum function, or ``soma,'' \(\sum_{i=0}^{n}(w_ix_i)=\vec{x}\dot\cdot\vec{w}\). Finally, it has an output, or ``axon,'' which is equal to \(1\) if the soma result is greater than \(0\), and \(-1\) otherwise. The algorithm learns by adjusting the weights of its inputs. One simple method for this follows:
 
-\[w_i \leftarrow w_i + \delta w_i\]
-\[\delta w_i = \eta (t - o) x_i\]
+\[w_i \leftarrow w_i + \Delta w_i\]
+\[\Delta w_i = \eta (t - o) x_i\]
 
-Where \(t = c(x)\) is the target value, \(o\) is the output, and \(\eta\) is a small constant (around \(0.1\)) known as the ``learning rate.'' This learning rate serves the same purpose as the learning rate above in linear and polynomial regression. In fact, neural networks often implement gradient descent to optimize at this stage by minimizing the square error, as the above equation has one serious drawback. In a similar way to how decision trees form a linear decision boundary, perceptrons form a linear or planar decision boundary. If such a boundary can not be made, the optimization will never converge, as small adjustments are made to the weights each time the output is incorrect. Utilizing gradient descent, the process will eventually converge, minimizing the error over the training set. 
+Where \(t = c(x)\) is the target value, \(o\) is the output, and \(\eta\) is a small constant (around \(0.1\)) known as the ``learning rate.'' \cite{website:domingos} This learning rate serves the same purpose as the learning rate above in linear and polynomial regression. In fact, neural networks often implement gradient descent to optimize at this stage by minimizing the square error, as the above equation has one serious drawback. In a similar way to how decision trees form a linear decision boundary, perceptrons form a linear or planar decision boundary. If such a boundary can not be made, the optimization will never converge, as small adjustments are made to the weights each time the output is incorrect. Utilizing gradient descent, the process will eventually converge, minimizing the error over the training set. 
 %------------------------------------------------
 
 
